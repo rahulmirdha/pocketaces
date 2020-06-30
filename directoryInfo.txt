@@ -1,0 +1,17 @@
+1. ./app.js is the entry point
+
+2. app.js routes the request to ./routes/roites.js
+
+3. ./routes/routes.js , has all the api path
+
+4. routes.js connects to ./controller/transaction.controller.js
+
+5. ./controller/transaction.controller.js , has business logic of the app
+
+6. ./models/index.js , imports ans configures sequelize ORM.
+Also imports transaction model, passes required info. And then exorts db and models
+
+7.  ./models/transaction.model.js has defined schema for transaction, which sets
+hierarchical relationship as well
+
+8. ./config has configuaration. ./config/db.config.js has db configurations

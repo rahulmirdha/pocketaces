@@ -7,9 +7,12 @@ const app = express();
 app.use(bodyParser.json());
 
 const db = require('./models/index.js');
-db.sequelize.sync({force: true}).then(()=> {
-    console.log("drop and resync db");
-});
+db.sequelize.sync();
+
+//use for developement purpose in case of force drop of table
+// db.sequelize.sync({force: true}).then(()=> {
+//     console.log("drop and resync db");
+// });
 
 app.get('/', (req, res) => {
     res.json({message: "Transactions are welcome now!"})

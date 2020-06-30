@@ -1,9 +1,8 @@
-
 module.exports = {
-    HOST: "localhost",
-    USER: "root",
-    PASSWORD: "allInWithPocketAces",
-    DB: "trndb",
+    HOST: "SG-Aces-2656-master.servers.mongodirector.com",
+    USER: "jacks",
+    PASSWORD: "Jacks@2020",
+    DB: "tdatabase",
     dialect: "mysql",
     pool: {
         max: 5,
