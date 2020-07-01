@@ -126,7 +126,7 @@ const findByType = (req, res) => {
  * @param {Object} allDec, tree with all it's descendents
  * @returns {Number} sum, sum of all amounts in the transaction
  */
-const calRecSum = async (allDec) => {
+const calRecSum = (allDec) => {
     let sum = 0;
     sum += allDec['amount'];
     
@@ -134,9 +134,9 @@ const calRecSum = async (allDec) => {
         return sum;
     }
     for(let i = 0; i < allDec.children.length; i++){
-        sum+= await calRecSum(allDec.children[i])
+        sum+= calRecSum(allDec.children[i])
     }
-    console.log("sum :", sum);
+    // console.log("sum :", sum);
     return sum;
 }
 
@@ -158,8 +158,8 @@ const getSum = async (req, res) => {
             hierarchy: true
         }
     });
-    console.log("print alldesc: ");
-    console.log(allDesc.amount);
+    // console.log("print alldesc: ");
+    // console.log(allDesc.amount);
 
     if(!allDesc){
         res.status(500).send({
@@ -167,7 +167,7 @@ const getSum = async (req, res) => {
         });
     }
     
-    sum = await calRecSum(allDesc);
+    sum = calRecSum(allDesc);
     res.send({sum:sum});
 
 };
@@ -178,6 +178,25 @@ const getSum = async (req, res) => {
  * @return {Object} {staus: 200} 
  */
 const deleteOne = (req, res) => {
+    const id = req.params.transaction_id;
+    if(!id){
+        res.status(400).send({message: "parameter transaction_id is compulosry"});
+        return;
+    }
+    Transaction.destroy({
+        where: {id: id},
+        onDelete: 'CASCADE'
+    })
+    .then(num => {
+        if(num == 1){
+            res.send({message: "Deleted transactions corresponding to id "+ id});
+        }else{
+            res.status(201).send({message: "Transaction id not found"});
+        }
+    })
+    .catch(err => {
+        res.status(500).send({message: err || "Server error"});
+    });
 
 };
 
